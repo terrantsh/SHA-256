@@ -4,7 +4,6 @@
 #define SHA256_ROTL(a,b) (((a>>(32-b))&(0x7fffffff>>(31-b)))|(a<<b))
 #define SHA256_SR(a,b) ((a>>b)&(0x7fffffff>>(b-1)))
 
-
 #define SHA256_Ch(x,y,z) ((x&y)^((~x)&z))
 #define SHA256_Maj(x,y,z) ((x&y)^(x&z)^(y&z))
 #define SHA256_E0(x) (SHA256_ROTL(x,30)^SHA256_ROTL(x,19)^SHA256_ROTL(x,10))
@@ -17,9 +16,9 @@ extern char* StrSHA256(const char* str, long long length, char* sha256){
     /*
     计算字符串SHA-256
     参数说明：
-    str         字符串指针
-    length      字符串长度
-    sha256         用于保存SHA-256的字符串指针
+    str             字符串指针
+    length          字符串长度
+    sha256          用于保存SHA-256的字符串指针
     返回值为参数sha256
     */
     char *pp, *ppend;
@@ -36,6 +35,7 @@ extern char* StrSHA256(const char* str, long long length, char* sha256){
             0x19a4c116, 0x1e376c08, 0x2748774c, 0x34b0bcb5, 0x391c0cb3, 0x4ed8aa4a, 0x5b9cca4f, 0x682e6ff3,
             0x748f82ee, 0x78a5636f, 0x84c87814, 0x8cc70208, 0x90befffa, 0xa4506ceb, 0xbef9a3f7, 0xc67178f2,
     };
+    
     l = length + ((length % 64 >= 56) ? (128 - length % 64) : (64 - length % 64));
     if (!(pp = (char*)malloc((unsigned long)l))) return 0;
     for (i = 0; i < length; pp[i + 3 - 2 * (i % 4)] = str[i], i++);
@@ -61,8 +61,6 @@ extern char* StrSHA256(const char* str, long long length, char* sha256){
 int main(void){
     char text[] = "0x123454132184861";  //需要进行加密的数组;you can change your own things here.
     char sha256[65];
-//    StrSHA256(text,sizeof(text)-1,sha256);  // sizeof()计算的结果包含了末尾的'\0'应减1
-//    puts(sha256);
     puts(StrSHA256(text,sizeof(text)-1,sha256));    // 函数返回值即sha256，直接输出也可以
     return 0;
 }
