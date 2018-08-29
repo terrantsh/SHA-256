@@ -1,4 +1,4 @@
-/*****************************************************************************
+﻿/*****************************************************************************
 Filename	: HASH_SHA_256.c
 Author  	: terrantsh(tanshanhe@foxmail.com)
 Date    	: 2018-8-29 09:55:21
@@ -143,7 +143,7 @@ extern char* FileSHA256(const char* file, char* sha256){
 //主函数
 int main(void){
 //  char text[] = "0x123454132184861";  //需要进行加密的数组;you can change your own things here.
- 	uint8_t text[] = {0x21,0x55,0x52,0xa2};//使用十六进制方式进行加密
+ 	uint8_t text[] = {0x21,0x55,0x52,0xa2};//使用十六进制方式进行加密 // use 0x00 format to encrypt hex
     char sha256[65];
     StrSHA256(text,sizeof(text)-1,sha256);  // sizeof()计算的结果包含了末尾的'\0'应减1
     puts(sha256);
