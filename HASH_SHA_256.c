@@ -199,7 +199,14 @@ void HexToStr(BYTE *pbDest, BYTE *pbSrc, int nLen)
     pbDest[nLen*2] = '\0';
 }
 
-
+// int main(int argc, char* argv[])
+// {
+//     char str[10]="153";
+//     int n = atoi(str);
+//     itoa(n, str, 16);
+//     printf("%s", str);
+//     return 0;
+// }
 
 //sscanf(str,"%x",&a);//%x为读入16进制数，大小写均可。sscanf是从c字符串中读入变量。
 //printf("%i",a);
