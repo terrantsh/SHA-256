@@ -171,6 +171,9 @@ void StrToHex(BYTE *pbDest, BYTE *pbSrc, int nLen)
 }
 
 
+//sscanf(str,"%x",&a);//%x为读入16进制数，大小写均可。sscanf是从c字符串中读入变量。
+//printf("%i",a);
+
 //主函数
 int main(void){
 //  char text[] = "0x123454132184861";  //需要进行加密的数组;you can change your own things here.
