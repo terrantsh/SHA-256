@@ -139,6 +139,37 @@ extern char* FileSHA256(const char* file, char* sha256){
     return sha256;
 }
 
+/*
+// C prototype : void StrToHex(BYTE *pbDest, BYTE *pbSrc, int nLen)
+// parameter(s): [OUT] pbDest - 输出缓冲区
+// [IN] pbSrc - 字符串
+// [IN] nLen - 16进制数的字节数(字符串的长度/2)
+// return value:
+// remarks : 将字符串转化为16进制数
+*/
+void StrToHex(BYTE *pbDest, BYTE *pbSrc, int nLen)
+{
+    char h1,h2;
+    BYTE s1,s2;
+    int i;
+
+    for (i=0; i<nLen; i++)
+    {
+        h1 = pbSrc[2*i];
+        h2 = pbSrc[2*i+1];
+
+        s1 = toupper(h1) - 0x30;
+        if (s1 > 9)
+        s1 -= 7;
+
+        s2 = toupper(h2) - 0x30;
+        if (s2 > 9)
+        s2 -= 7;
+
+        pbDest[i] = s1*16 + s2;
+    }
+}
+
 
 //主函数
 int main(void){
