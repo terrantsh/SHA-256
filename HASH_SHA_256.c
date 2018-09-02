@@ -139,14 +139,7 @@ extern char* FileSHA256(const char* file, char* sha256){
     return sha256;
 }
 
-/*
-// C prototype : void StrToHex(BYTE *pbDest, BYTE *pbSrc, int nLen)
-// parameter(s): [OUT] pbDest - 输出缓冲区
-// [IN] pbSrc - 字符串
-// [IN] nLen - 16进制数的字节数(字符串的长度/2)
-// return value:
-// remarks : 将字符串转化为16进制数
-*/
+
 void StrToHex(BYTE *pbDest, BYTE *pbSrc, int nLen)
 {
     char h1,h2;
@@ -170,14 +163,7 @@ void StrToHex(BYTE *pbDest, BYTE *pbSrc, int nLen)
     }
 }
 
-/*
-// C prototype : void HexToStr(BYTE *pbDest, BYTE *pbSrc, int nLen)
-// parameter(s): [OUT] pbDest - 存放目标字符串
-// [IN] pbSrc - 输入16进制数的起始地址
-// [IN] nLen - 16进制数的字节数
-// return value:
-// remarks : 将16进制数转化为字符串
-*/
+
 void HexToStr(BYTE *pbDest, BYTE *pbSrc, int nLen)
 {
     char ddl,ddh;
@@ -198,6 +184,23 @@ void HexToStr(BYTE *pbDest, BYTE *pbSrc, int nLen)
 
     pbDest[nLen*2] = '\0';
 }
+
+
+// int main(void) 
+// {
+//     char *pKey = "AA1F1905A8F3E4D3C3C536FE615C93BC";
+//     int n=strlen(pKey)/2,i;
+//     char *Key=(char *)malloc(sizeof(char)*n);
+//     for(i=0;i<n;++i)
+//     {
+//         sscanf(pKey+2*i,"%2X",Key+i);
+//     }
+//     for(i=0;i<n;++i)
+//     {
+//         printf("%#02hhX ",Key[i]);
+//     }
+//     return 0;
+// }
 
 // int main(int argc, char* argv[])
 // {
