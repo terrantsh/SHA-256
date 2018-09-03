@@ -139,31 +139,6 @@ extern char* FileSHA256(const char* file, char* sha256){
     return sha256;
 }
 
-
-void StrToHex(BYTE *pbDest, BYTE *pbSrc, int nLen)
-{
-    char h1,h2;
-    BYTE s1,s2;
-    int i;
-
-    for (i=0; i<nLen; i++)
-    {
-        h1 = pbSrc[2*i];
-        h2 = pbSrc[2*i+1];
-
-        s1 = toupper(h1) - 0x30;
-        if (s1 > 9)
-        s1 -= 7;
-
-        s2 = toupper(h2) - 0x30;
-        if (s2 > 9)
-        s2 -= 7;
-
-        pbDest[i] = s1*16 + s2;
-    }
-}
-
-
 void HexToStr(BYTE *pbDest, BYTE *pbSrc, int nLen)
 {
     char ddl,ddh;
@@ -185,35 +160,6 @@ void HexToStr(BYTE *pbDest, BYTE *pbSrc, int nLen)
     pbDest[nLen*2] = '\0';
 }
 
-
-// int main(void) 
-// {
-//     char *pKey = "AA1F1905A8F3E4D3C3C536FE615C93BC";
-//     int n=strlen(pKey)/2,i;
-//     char *Key=(char *)malloc(sizeof(char)*n);
-//     for(i=0;i<n;++i)
-//     {
-//         sscanf(pKey+2*i,"%2X",Key+i);
-//     }
-//     for(i=0;i<n;++i)
-//     {
-//         printf("%#02hhX ",Key[i]);
-//     }
-//     return 0;
-// }
-
-// int main(int argc, char* argv[])
-// {
-//     char str[10]="153";
-//     int n = atoi(str);
-//     itoa(n, str, 16);
-//     printf("%s", str);
-//     return 0;
-// }
-
-//sscanf(str,"%x",&a);//%x为读入16进制数，大小写均可。sscanf是从c字符串中读入变量。
-//printf("%i",a);
-
 //主函数
 int main(void){
 //  char text[] = "0x123454132184861";  //需要进行加密的数组;you can change your own things here.
@@ -221,7 +167,7 @@ int main(void){
     char sha256[65];
     StrSHA256(text,sizeof(text)-1,sha256);  // sizeof()计算的结果包含了末尾的'\0'应减1
     puts(sha256);
-    StrToHex(BYTE *pbDest, BYTE *pbSrc, int nLen)
+    //StrToHex(BYTE *pbDest, BYTE *pbSrc, int nLen)
     puts(StrSHA256(text,sizeof(text)-1,sha256));    // 函数返回值即sha256，直接输出也可以
     return 0;
 }
