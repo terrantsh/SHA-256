@@ -164,11 +164,12 @@ void HexToStr(BYTE *pbDest, BYTE *pbSrc, int nLen)
 int main(void){
 //  char text[] = "0x123454132184861";  //需要进行加密的数组;you can change your own things here.
  	uint8_t text[] = {0x21,0x55,0x52,0xa2};//使用十六进制方式进行加密 // use 0x00 format to encrypt hex
-    char sha256[65];
-    StrSHA256(text,sizeof(text)-1,sha256);  // sizeof()计算的结果包含了末尾的'\0'应减1
-    puts(sha256);
-    //StrToHex(BYTE *pbDest, BYTE *pbSrc, int nLen)
-    puts(StrSHA256(text,sizeof(text)-1,sha256));    // 函数返回值即sha256，直接输出也可以
+    // char sha256[65];
+    // StrSHA256(text,sizeof(text)-1,sha256);  // sizeof()计算的结果包含了末尾的'\0'应减1
+    // puts(sha256);
+    // puts(StrSHA256(text,sizeof(text)-1,sha256));    // 函数返回值即sha256，直接输出也可以
+    StrToHex(BYTE *pbDest, BYTE *text, int sizeof(text));
+    puts(StrSHA256(pdDest,sizeof(pdDest)-1,sha256));    // 函数返回值即sha256，直接输出也可以
     return 0;
 }
 
