@@ -1,17 +1,9 @@
-﻿/*****************************************************************************
-Filename	: HASH_SHA_256.c
-Author  	: terrantsh(tanshanhe@foxmail.com)
-Date    	: 2018-9-4 13:30:43
-Description	:基本实现了SHA256加密的功能
-*****************************************************************************/
-#include <stdio.h>
+﻿#include <stdio.h>
 #include <stdlib.h>
-#include <math.h>
+#include <string.h>
 #include <stdint.h>
+#include <windows.h>
 
-/*
- * 几种加密计算符的定义
- */
 #define SHA256_ROTL(a,b) (((a>>(32-b))&(0x7fffffff>>(31-b)))|(a<<b))
 #define SHA256_SR(a,b) ((a>>b)&(0x7fffffff>>(b-1)))
 
@@ -22,19 +14,17 @@ Description	:基本实现了SHA256加密的功能
 #define SHA256_O0(x) (SHA256_ROTL(x,25)^SHA256_ROTL(x,14)^SHA256_SR(x,3))
 #define SHA256_O1(x) (SHA256_ROTL(x,15)^SHA256_ROTL(x,13)^SHA256_SR(x,10))
 
-
-//hash值计算函数
-extern char* StrSHA256(const char* str, long long length, char* sha256){
+extern char* StrSHA256(const char* str,  long length, char* sha256){
     /*
     计算字符串SHA-256
     参数说明：
-    str             字符串指针
-    length          字符串长度
-    sha256          用于保存SHA-256的字符串指针
+    str                  字符串指针
+    length               字符串长度
+    sha256               用于保存SHA-256的字符串指针
     返回值为参数sha256
     */
     char *pp, *ppend;
-    long l, i, W[64], T1, T2, A, B, C, D, E, F, G, H, H0, H1, H2, H3, H4, H5, H6, H7;
+    int l, i, W[64], T1, T2, A, B, C, D, E, F, G, H, H0, H1, H2, H3, H4, H5, H6, H7;
     H0 = 0x6a09e667, H1 = 0xbb67ae85, H2 = 0x3c6ef372, H3 = 0xa54ff53a;
     H4 = 0x510e527f, H5 = 0x9b05688c, H6 = 0x1f83d9ab, H7 = 0x5be0cd19;
     long K[64] = {
@@ -47,7 +37,6 @@ extern char* StrSHA256(const char* str, long long length, char* sha256){
             0x19a4c116, 0x1e376c08, 0x2748774c, 0x34b0bcb5, 0x391c0cb3, 0x4ed8aa4a, 0x5b9cca4f, 0x682e6ff3,
             0x748f82ee, 0x78a5636f, 0x84c87814, 0x8cc70208, 0x90befffa, 0xa4506ceb, 0xbef9a3f7, 0xc67178f2,
     };
-    
     l = length + ((length % 64 >= 56) ? (128 - length % 64) : (64 - length % 64));
     if (!(pp = (char*)malloc((unsigned long)l))) return 0;
     for (i = 0; i < length; pp[i + 3 - 2 * (i % 4)] = str[i], i++);
@@ -66,39 +55,84 @@ extern char* StrSHA256(const char* str, long long length, char* sha256){
         H0 += A, H1 += B, H2 += C, H3 += D, H4 += E, H5 += F, H6 += G, H7 += H;
     }
     free(pp - l);
-    sprintf(sha256, "%08x%08x%08x%08x%08x%08x%08x%08x", H0, H1, H2, H3, H4, H5, H6, H7);
+    sprintf(sha256, "%08X%08X%08X%08X%08X%08X%08X%08X", H0, H1, H2, H3, H4, H5, H6, H7);
     return sha256;
 }
 
-void HexToStr(BYTE *pbDest, BYTE *pbSrc, int nLen)
+void StrToHex(byte *pbDest, char *pszSrc, int nLen)
 {
-    char ddl,ddh;
-    int i;
-
-    for (i=0; i<nLen; i++)
+    char h1, h2;
+    byte s1, s2;
+    for (int i = 0; i < nLen; i++)
     {
-        ddh = 48 + pbSrc[i] / 16;
-        ddl = 48 + pbSrc[i] % 16;
-        if (ddh > 57) 
-            ddh = ddh + 7;
-        if (ddl > 57) 
-            ddl = ddl + 7;
-        
-        pbDest[i*2] = ddh;
-        pbDest[i*2+1] = ddl;
+        h1 = pszSrc[2 * i];
+        h2 = pszSrc[2 * i + 1];
+
+        s1 = toupper(h1) - 0x30;
+        if (s1 > 9)
+            s1 -= 7;
+
+        s2 = toupper(h2) - 0x30;
+        if (s2 > 9)
+            s2 -= 7;
+
+        pbDest[i] = s1 * 16 + s2;
     }
-
-    pbDest[nLen*2] = '\0';
 }
 
-//主函数
+char  HexToASCII(unsigned char  data_hex)
+{
+    char  ASCII_Data;
+    ASCII_Data=data_hex & 0x0F;
+    if(ASCII_Data<10)
+        ASCII_Data=ASCII_Data+0x30; //‘0--9’
+    else
+        ASCII_Data=ASCII_Data+0x37;       //‘A--F’
+    return ASCII_Data;
+}
+
+
+
+//int main(void){
+//    char text [] = " ü           AA";
+//    char sha256[65];
+//    StrSHA256(text,sizeof(text)-1,sha256);    // 函数返回值即sha256，直接输出也可以
+//    puts(sha256);
+//    return 0;
+//}
+
 int main(void){
-//  char text[] = "0x123454132184861";  //需要进行加密的数组;you can change your own things here.
- 	uint8_t text[] = {0x21,0x55,0x52,0xa2};//使用十六进制方式进行加密 // use 0x00 format to encrypt hex
-    // char sha256[65];
-    // puts(StrSHA256(text,sizeof(text)-1,sha256));    // 函数返回值即sha256，直接输出也可以
-    StrToHex(BYTE *pbDest, BYTE *text, int sizeof(text));
-    puts(StrSHA256(pdDest,sizeof(pdDest)-1,sha256));    // 函数返回值即sha256，直接输出也可以
-    return 0;
+//    char text [] = "00FC00800000000794060001204141";
+////    uint_8 text[] = {0x31,0x23,0x22};
+//    char apple;
+//    HexToStr(BYTE *apple, BYTE *text, int sizeof(text))
+//
+//    char sha256[65];
+//    StrSHA256(text,sizeof(text)-1,sha256);    // 函数返回值即sha256，直接输出也可以
+//    puts(sha256);
+//    return 0;
+
+    char text [] = "00FC00800000000794060001204141";
+    HexToChar(text);
+    char sha256[65];
+    StrSHA256(text,sizeof(text)-1,sha256);    // 函数返回值即sha256，直接输出也可以
+    puts(sha256);
+
+//    StrToHex(pOut,"00FC00800000000794060001204141", 15);
+
+//    char sha256[65];
+//    StrSHA256(pOut,sizeof(pOut)-1,sha256);
+//    puts(sha256);
+//    return 0;
+//    byte text [] = {0x00,0x00,0x00,0x02,0x00,0xFC,0x00,0x00,0x00,0x00,0x04,0x00,0xD1,0x56,0x8F,0x40,0xC5,0x65,0xA7,0x97,0x42,0x2C,0x4F,0xE7,0x02,0x67,0xB6,0x85,0x2E,0x26,0xCE,0xC4,0xE8,0x90,0xB9,0xF3,0x2D,0x7A,0xF6,0x30,0x4F,0x25,0xD5,0x91,0x01,0x00,0x00,0x00,0x00,0x02,0xE6,0x00,0xA8,0x81,0x07,0x6F,0x8F,0x6B,0x2D,0xC5,0x63,0xF3,0x4A,0x6B,0x61,0x0CA,0xE1,0x1B,0xAF,0xDA,0xD8,0xE8,0x62,0xAB,0x69,0x98,0xBE,0x2C,0x2A,0x8C,0x6A,0xAD,0x96,0x15};
+//    char sha256[65];
+//    StrSHA256(text, sizeof(text)-1, sha256);
+//    puts(sha256);
+//    return 0;
 }
 
+
+//    byte text [] = {0x00,0xFC,0x00,0x00,0x00,0x00,0x00,0x60,0x00,0x5A,0x00,0x02,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x01,0x00,0x00,
+//                    0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,
+//                    0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,
+//                    0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF};
