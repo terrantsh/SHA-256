@@ -45,14 +45,6 @@ int main(int ArgC, char** ArgV) {
 //#define SHA256_O1(x) (SHA256_ROTL(x,15)^SHA256_ROTL(x,13)^SHA256_SR  (x,10))
 //
 //extern char* StrSHA256(const char* str,  long length, char* sha256){
-//    /*
-//    计算字符串SHA-256
-//    参数说明：
-//    str                  字符串指针
-//    length               字符串长度
-//    sha256               用于保存SHA-256的字符串指针
-//    返回值为参数sha256
-//    */
 //    char *pp, *ppend;
 //    int l, i, W[64], T1, T2, A, B, C, D, E, F, G, H, H0, H1, H2, H3, H4, H5, H6, H7;
 //    H0 = 0x6a09e667, H1 = 0xbb67ae85, H2 = 0x3c6ef372, H3 = 0xa54ff53a;
