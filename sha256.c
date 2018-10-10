@@ -131,9 +131,9 @@ Sha256Initialise
 void
 Sha256Update
         (
-                Sha256Context*      Context,        // [in out]
-                void const*         Buffer,         // [in]
-                uint32_t            BufferSize      // [in]
+                Sha256Context*      Context,        // [out]
+                void const*         Buffer,         // [in ]
+                uint32_t            BufferSize      // [in ]
         )
 {
     uint32_t n;
@@ -172,7 +172,7 @@ Sha256Update
 void
 Sha256Finalise
         (
-                Sha256Context*      Context,        // [in out]
+                Sha256Context*      Context,        // [out]
                 SHA256_HASH*        Digest          // [out]
         )
 {
