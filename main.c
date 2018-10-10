@@ -17,7 +17,7 @@ int main(int ArgC, char** ArgV) {
  *  ether function1 or function2 is ok
  */
     // function 1
-    Sha256Calculate(text, sizeof(text), &sha256Hash); // perhaps not ok, havn't check yet
+    Sha256Calculate(text, sizeof(text), sha256Hash); // perhaps not ok, havn't check yet
         
 //     // function 2
 //     Sha256Initialise( &sha256Context );
